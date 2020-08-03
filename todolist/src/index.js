@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TodoList from './TodoList';
+// 使用使用antd后的组件
+import TodoList from './antd/TodoList';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <TodoList />
-  </React.StrictMode>,
+    <TodoList />,
   document.getElementById('root')
 )
