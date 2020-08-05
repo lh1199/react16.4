@@ -19,4 +19,4 @@ class TodoListUI extends Component {
   }
 }
 
-export defaul TodoListUI
+export default TodoListUI
