@@ -1,43 +1,30 @@
 import { fromJS } from 'immutable'   //引入
+import * as constants from './constants'
 
 const defaultState = fromJS({    //改成fromJS
-  topicList: [{
-    id: 1,
-    title: "社会热点",
-    imgUrl: "//img.tuguaishou.com/ips_templ_preview/w216_q100/9e/c8/30/lg_2925079_1586567411_5e9118f336d13.jpg?auth_key=2229609600-0-0-44e58e0b9ad4c4c422c20401e004995c"
-  }, {
-    id: 2,
-    title: "手绘",
-    imgUrl: "//img.tuguaishou.com/ips_templ_preview/w216_q100/2f/3f/e4/lg_2924935_1586571006_5e9126fe10516.jpg?auth_key=2229609600-0-0-f858395b05f6fa9ffe588044c567ae66"
-  }],
-  articleList: [{
-    id: 1,
-    title: "1核2G基础型入门必备主机仅售90元/年！！",
-    desc: "【“青”力钜惠1折起】一站式定制：虚拟主机/企业网盘/QKE容器/云数据库",
-    imgUrl: "https://oimageb2.ydstatic.com/image?id=1835681861552908612&product=adpublish&w=300&h=200&sc=0&rm=2&gsb=0&gsbd=60"
-  }, {
-    id: 2,
-    title: "独来独往的人",
-    desc: "独来独往的人并非傻子。他们非常清楚地知道在这密如蛛网的社会关系中生活，热情外向很重要，交往和沟通很重要。没准，独来独往的性格会影响人缘，因影响提升，会影响前程。",
-    imgUrl: "https://upload-images.jianshu.io/upload_images/19363614-139188a8de1720e2.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240"
-  }],
-  recommendList: [{
-    id: 1,
-    imgUrl: "http://cdn2.jianshu.io/assets/web/banner-s-club-aa8bdf19f8cf729a759da42e4a96f366.png"
-  }, {
-    id: 2,
-    imgUrl: "http://cdn2.jianshu.io/assets/web/banner-s-7-1a0222c91694a1f38e610be4bf9669be.png"
-  }, {
-    id: 3,
-    imgUrl: "http://cdn2.jianshu.io/assets/web/banner-s-5-4ba25cf5041931a0ed2062828b4064cb.png"
-  }, {
-    id: 4,
-    imgUrl: "http://cdn2.jianshu.io/assets/web/banner-s-6-c4d6335bfd688f2ca1115b42b04c28a7.png"
-  }]
+  topicList: [],
+  articleList: [],
+  recommendList: [],
+  articlePage: 1,
+  showScroll: false
 })
 
 export default (state=defaultState, action)=>{
   switch(action.type) {
+    case constants.CHANGE_HOME_DATA:
+      return state.merge({
+        topicList: fromJS(action.topicList),
+        articleList: fromJS(action.articleList),
+        recommendList: fromJS(action.recommendList)
+      })
+    case constants.ADD_ARTICLE_LIST:
+      console.log(action.list)
+      return state.merge({
+        'articleList': state.get('articleList').concat(action.list),
+        'articlePage': action.nextPage
+      })
+    case constants.TOGGLE_SCROLL_TOP:
+      return state.set('showScroll', action.show)
     default:
       return state
   }
