@@ -26,7 +26,6 @@ class Home extends Component {
           <Writer />
         </HomeRight>
         { this.props.showScroll ? <BackTop onClick={this.handleScrollTop}>回到顶部</BackTop> : null}
-        <BackTop onClick={this.handleScrollTop}>回到顶部</BackTop>
       </HomeWrapper>
     )
   }
@@ -37,11 +36,11 @@ class Home extends Component {
   }
 
   bindEvents() {
-    window.addEventListener('scroll', this.props.changeScrollTopShow())
+    window.addEventListener('scroll', this.props.changeScrollTopShow(), true)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.props.changeScrollTopShow())
+    window.removeEventListener('scroll', this.props.changeScrollTopShow(), true)
   }
 }
 

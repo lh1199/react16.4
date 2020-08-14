@@ -18,7 +18,6 @@ export default (state=defaultState, action)=>{
         recommendList: fromJS(action.recommendList)
       })
     case constants.ADD_ARTICLE_LIST:
-      console.log(action.list)
       return state.merge({
         'articleList': state.get('articleList').concat(action.list),
         'articlePage': action.nextPage
