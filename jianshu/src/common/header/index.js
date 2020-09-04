@@ -17,6 +17,8 @@ import {
   SearchInfoItem,
   SearchInfoList,
 } from './style'
+import { BrowserRouter as Router, Link } from 'react-router-dom'
+import { actionCreators as loginActionCreators } from '../../pages/login/store'
 
 class Header extends Component {
 
@@ -52,33 +54,39 @@ class Header extends Component {
   }
 
   render() {
-    const { focused, handleInputBlur, handleInputFocus, list } = this.props
+    const { focused, handleInputBlur, handleInputFocus, list, login, logout } = this.props
     return (
-      <HeaderWrapper>
-        <Logo />
-        <Nav>
-          <NavItem className="left active">首页</NavItem>
-          <NavItem className="left">下载App</NavItem>
-          <NavItem className="right">登录</NavItem>
-          <NavItem className="right">
-            <i className="iconfont">&#xe636;</i>
-          </NavItem>
-          <SearchWrapper>
-            <CSSTransition timeout={200} in={focused} classNames="slide">
-              <NavSearch className={focused ? 'focused' : ''} onFocus={() => handleInputFocus(list)} onBlur={handleInputBlur}></NavSearch>
-            </CSSTransition>
-            <i className={focused ? 'focused iconfont zoom' : 'iconfont zoom'}>&#xe60c;</i>
-            {this.getListArea()}
-          </SearchWrapper>
-        </Nav>
-        <Addition>
-          <Button className="writing">
-            <i className="iconfont">&#xe6e5;</i>
-            写文章
-          </Button>
-          <Button className="reg">注册</Button>
-        </Addition>
-      </HeaderWrapper>
+      <Router>
+        <HeaderWrapper>
+          <Logo />
+          <Nav>
+            <NavItem className="left active">首页</NavItem>
+            <NavItem className="left">下载App</NavItem>
+            {
+              login ? 
+                <NavItem onClick={ logout } className="right">退出</NavItem> : 
+                <Link to="/login"><NavItem className="right">登录</NavItem></Link>
+            }
+            <NavItem className="right">
+              <i className="iconfont">&#xe636;</i>
+            </NavItem>
+            <SearchWrapper>
+              <CSSTransition timeout={200} in={focused} classNames="slide">
+                <NavSearch className={focused ? 'focused' : ''} onFocus={() => handleInputFocus(list)} onBlur={handleInputBlur}></NavSearch>
+              </CSSTransition>
+              <i className={focused ? 'focused iconfont zoom' : 'iconfont zoom'}>&#xe60c;</i>
+              {this.getListArea()}
+            </SearchWrapper>
+          </Nav>
+          <Addition>
+            <Button className="writing">
+              <i className="iconfont">&#xe6e5;</i>
+              写文章
+            </Button>
+            <Button className="reg">注册</Button>
+          </Addition>
+        </HeaderWrapper>
+      </Router>
     )
   }
 }
@@ -90,7 +98,8 @@ const mapStateToProps = (state) => {
     list: state.getIn(['header', 'list']),
     page: state.getIn(['header', 'page']),
     mouseIn: state.getIn(['header', 'mouseIn']),
-    totalPage: state.getIn(['header', 'totalPage'])
+    totalPage: state.getIn(['header', 'totalPage']),
+    login: state.getIn(['login', 'login'])
   }
 }
 
@@ -122,6 +131,9 @@ const mapDispatchToProps = (dispatch) => {
       } else {
         dispatch(actionCreators.changePage(1))
       }
+    },
+    logout() {
+      dispatch(loginActionCreators.logout())
     }
   }
 }
